@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-     Gabs   {% block title %}{% endblock%}</title>
-    <!-- Link to external CSS file for styling -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="static/style.css">
-    <!-- Optional: Link to a font from Google Fonts (example) -->
-    <link href="fonts.googleapis.com" rel="stylesheet">
-    <style>
-
 
 * {
     margin: 0;
@@ -256,54 +241,3 @@ footer {
         font-size: 2.5rem;
     }
 }
-
-    </style>
-</head>
-<body>
-
-    <!-- Header & Navigation -->
-    <header>
-        <nav>
-            <div class="logo">Gabs Kitchen</div>
-            <ul class="nav-links">
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'menu' %}">Menu</a></li>
-                <li><a href="{% url 'about' %}">About Us</a></li>
-
-                <li><a href="{% url 'booking' %}" class="btn">Reservations</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-
-
-
-
-        <!-- About Us Section -->
-        <section id="about" class="about-section">
-            {% block content %}{% endblock%}
-        </section>
-
-
-
-        <!-- Contact Information Section -->
-        <section id="contact" class="contact-section">
-            <h2>Contact & Location</h2>
-            <p>Plot 1256 Kololo Hill, Kampala</p>
-            <p>Phone: (123) 456-7890</p>
-            <p>Email: info@gabskitchen.com</p>
-            <h3>Hours:</h3>
-            <p>Mon-Fri: 9AM - 12 AM</p>
-            <p>Sat-Sun: 11 AM - 11 PM</p>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 Restaurant Name. All rights reserved.</p>
-    </footer>
-
-</body>
-</html>

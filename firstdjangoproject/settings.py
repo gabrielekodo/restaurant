@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -120,8 +120,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# A list of paths where Django will look for static files during development
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# The absolute path to the directory where collectstatic will gather files for deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# URL where Django redirects users who are not logged in but try to access protected views
+LOGIN_URL = '/about/'
+
+# URL where Django redirects after a successful login (default is /accounts/profile/)
+LOGIN_REDIRECT_URL = '/menu/2'
+
+# URL where Django redirects after a successful logout (if not specified in the logout view/URL pattern)
+LOGOUT_REDIRECT_URL = '/home'

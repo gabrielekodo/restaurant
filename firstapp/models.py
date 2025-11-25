@@ -20,3 +20,12 @@ class Reservation(models.Model):
 
     def __str__(self):
         return self.first_name+' '+self.last_name
+
+
+class User(models.Model):
+    username=models.CharField(max_length=255,unique=True)
+    email=models.CharField(max_length=255,unique=True)
+    password=models.CharField(max_length=1000)
+    role=models.CharField(default='admin')
+
+

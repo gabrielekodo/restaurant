@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title%}
+About us
+{% endblock%}
 
-</body>
-</html>
+
+{% block content%}
+<div class="menu-items">
+
+    {% for item in menu%}
+    <div class="menu-item">
+        <a href="{% url 'menu_item' pk=item.pk %}" class="card-title">         <img src="{{item.image}}" alt="image of food"></a>
+                    <h3 class="font-weight-bold text-danger">{{item.name}}</h3>
+                    <p>{{item.description}}</p>
+        <p class="font-weight-bold text-primary">Ugx{{item.price}}</p>
+                </div>
+
+
+
+    {% endfor%}
+
+
+            </div>
+
+{% endblock%}
