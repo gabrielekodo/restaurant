@@ -11,6 +11,9 @@ Login
 <div class="menu-items">
 
  <div class="login-container">
+     {% for message in messages %}
+     <h5 class="text-danger">{{message}}</h5>
+     {% endfor%}
         <form method="POST" class="login-form">
          {% csrf_token%}
             <h2>Welcome Back</h2>

@@ -269,8 +269,16 @@ footer {
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'menu' %}">Menu</a></li>
                 <li><a href="{% url 'about' %}">About Us</a></li>
+{% if user.is_authenticated %}
+                 <li><a href="{% url 'booking' %}" class="btn">Reservations</a></li>
+                  <li><a href="{% url 'recipes' %}" class="btn">Recipes</a></li>
+                 <li><a href="{% url 'logout' %}" class="btn">Logout</a></li>
 
-                <li><a href="{% url 'booking' %}" class="btn">Reservations</a></li>
+                {% else%}
+ <li><a href="{% url 'login' %}" class="btn">Login or sign up</a></li>
+
+                {%endif%}
+
             </ul>
         </nav>
     </header>
@@ -304,6 +312,9 @@ footer {
     <footer>
         <p>&copy; 2025 Restaurant Name. All rights reserved.</p>
     </footer>
-
+$('#exampleModal').modal('show')
+$('#exampleModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
 </body>
 </html>

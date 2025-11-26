@@ -3,6 +3,10 @@
 Reservations
 {% endblock%}
 {% block content%}
+{% if user.is_authenticated %}
+
+
+
 <div class="container">
 
     <form method="POST">
@@ -30,6 +34,6 @@ Reservations
 
 </div>
 
-
+{% endif%}
 
 {% endblock%}

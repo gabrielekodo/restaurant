@@ -1,8 +1,9 @@
-from django.shortcuts import render,redirect
+from django.conf import settings
+from django.shortcuts import render,redirect,get_object_or_404
 from django.views import View
 from django.http import HttpResponse
 from .forms import ReservationForm,LoginForm,RegistrationForm
-from .models import MenuItems
+from .models import MenuItems,CustomUser
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
@@ -12,52 +13,69 @@ from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
 
 def login_view(request):
-    print(request.method)
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method=='POST':
         form=AuthenticationForm(request,data=request.POST)
-        print(f"{form.data['email']}\n{form.data['password']}")
-        user = authenticate(request, email=form.data['email'], password=form.data['password'],username='admin',role='admin')
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = authenticate( password=password,email=email)
         print( {user})
-        print(form.is_valid())
+
         if user is not None:
             login(request, user)
 
             return redirect('home')  # Redirect to your home page name
         else:
-            form.add_error(None, "Invalid username or password.")
-
-
-
+            messages.info(request,'Invalid username or password.')
+            return redirect('login')
 
     else:
-            form = AuthenticationForm()
 
-    return render(request,'login.html',{'form':form})
+        return render(request,'login.html')
 
 def logout_view(request):
     logout(request)
     messages.info(request, "You have been logged out.")
-    return redirect('home')
+    return redirect(settings.LOGOUT_REDIRECT_URL)
 
 def create_account(request):
-    form=RegistrationForm()
+    if request.user.is_authenticated:
+        return redirect('home')
+
 
     if request.method=='POST':
-        form=RegistrationForm(request.POST)
+        last_name=request.POST['last_name']
+        first_name = request.POST['first_name']
+        email = request.POST['email']
+        password= request.POST['password']
+        password2 = request.POST['password2']
 
-        if form.is_valid():
+        if password==password2:
+            if CustomUser.objects.filter(email=email).exists():
+                messages.info(request,'Email already used')
+                return redirect('register')
+            else:
+                user=CustomUser.objects.create_user(email=email,password=password,last_name=last_name,first_name=first_name)
+                user.save()
+                return redirect('login')
 
-            form.save()
-            return redirect('login')
 
-    return render(request,'registration.html',{'form':form})
+
+        else:
+             messages.info(request,'Passwords are not matching')
+
+             return redirect('register')
+
+    return render(request,'registration.html')
 
 def home(request):
     first_three_items = MenuItems.objects.all()[:3]
 
     return render(request,'home.html',{'menu':first_three_items})
 
-
+@login_required()
 def booking(request):
     form=ReservationForm()
     if request.method=='POST':
@@ -81,6 +99,7 @@ def menu(request):
 
     return render(request,'menu.html',{'menu':menu_data})
 
+@login_required()
 def display_menu_item(request,pk=None):
     try:
         menu_item = MenuItems.objects.get(pk=pk)
@@ -100,4 +119,28 @@ def display_menu_item(request,pk=None):
     #
     # return render(request,'menu_item.html',{'menu_item':menu_item})
 
+
+def add_recipe(request):
+    items=MenuItems.objects.all()
+    if request.method=='POST':
+        print('Posted')
+
+    context={
+        'items':items
+    }
+    print(items)
+    return render(request,'recipes.html', context)
+
+def view_recipe(request,id):
+    return render(request,'viewrecipe.html',{'id':id})
+
+@login_required()
+def delete_menu(request, id):
+    item = get_object_or_404(MenuItems, id=id)
+
+    if request.method == "GET":
+        item.delete()
+        return redirect("recipes")
+
+    return render(request, "recipes.html", { "item": item })
 

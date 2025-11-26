@@ -10,11 +10,17 @@ Login
  <div class="login-container">
         <form method="POST" class="login-form">
          {% csrf_token%}
-            <h2>Welcome Back</h2>
-            <p>Please enter your details to sign in.</p>
+             {% for message in messages %}
+     <h5 class="text-danger">{{message}}</h5>
+     {% endfor%}
+            <p>Please enter your details to create your account</p>
 <div class="input-group">
-                <label for="email">Username</label>
-                <input type="text" id="username" name="username" required autocomplete="email" placeholder="you@example.com">
+                <label for="email">First name</label>
+                <input type="text" id="username" name="first_name" required autocomplete="email" placeholder="">
+            </div>
+             <div class="input-group">
+                <label for="email">Last name</label>
+                <input type="text" id="last_name" name="last_name" required autocomplete="email" placeholder="">
             </div>
             <div class="input-group">
                 <label for="email">Email Address</label>
@@ -23,18 +29,19 @@ Login
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+                <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="">
             </div>
-<div class="input-group">
-                <label for="password">User role</label>
-                <input type="password" id="role" name="role" required autocomplete="current-password" placeholder="••••••••">
+            <div class="input-group">
+                <label for="password">Confirm Password</label>
+                <input type="password" id="password2" name="password2" required autocomplete="current-password" placeholder="">
             </div>
+
 
 
             <button type="submit" class="btn btn-primary submit-btn">Submit</button>
 
             <div class="signup-link">
-                Already have an account? <a href="{% url 'login'%}">Login</a>
+                Already have an account? <a class="text-primary" href="{% url 'login'%}">Login</a>
             </div>
         </form>
     </div>

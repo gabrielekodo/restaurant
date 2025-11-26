@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title%}
+Recipes
+{% endblock%}
+{% block content%}
+{% if user.is_authenticated %}
+
+
+
+<div class="container">
+
+    <form method="POST">
+        {% csrf_token %}
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Name</label>
+    <input name="name" type="text" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Description</label>
+    <input name="description" type="text" class="form-control" id="exampleInputPassword2" placeholder=" " required>
+  </div>
+  <div class="form-group">
+       <label for="exampleInputPassword1">Picture</label>
+    <input  type="text" name="image" class="form-control" id="exampleCheck1">
+
+  </div>
+        <div class="form-group">
+    <label for="exampleInputPassword1">Price</label>
+    <input name="price" type="number" class="form-control" id="exampleInputPassword1" placeholder="price in Ugx" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+    <table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">
+          Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for item in items%}
+  <tr>
+      <th scope="row">{{item.pk}}</th>
+      <td>{{item.name}}</td>
+      <td>{{item.price}}</td>
+      <td>
+          <a href="{% url 'viewrecipe' item.pk %}" class=" btn btn-warning">Edit</a>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+  Del
+</button>
+          <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+          <a href="{% url 'delete_menu' item.pk %}" class="btn btn-danger" >Del</a>
+      </td>
+    </tr>
+  {%endfor%}
+
+
+  </tbody>
+</table>
+
+
+
+</div>
+
+{% endif%}
+
+{% endblock%}

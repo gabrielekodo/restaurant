@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'firstdjangoproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'my-django-db',
+        'NAME': 'newdjangodb',
         'USER':'admin',
         'PASSWORD':'123456',
         'HOST':'localhost',
@@ -134,10 +134,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # URL where Django redirects users who are not logged in but try to access protected views
-LOGIN_URL = '/about/'
+LOGIN_URL = '/app/login/'
 
 # URL where Django redirects after a successful login (default is /accounts/profile/)
-LOGIN_REDIRECT_URL = '/menu/2'
+LOGIN_REDIRECT_URL = 'app/menu/'
 
 # URL where Django redirects after a successful logout (if not specified in the logout view/URL pattern)
-LOGOUT_REDIRECT_URL = '/home'
+LOGOUT_REDIRECT_URL = '/app/home'
+
+# your_project/settings.py
+AUTH_USER_MODEL = 'firstapp.CustomUser'
