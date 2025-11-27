@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Reservation,User
+from .models import Reservation,User,MenuItems
 
 class ReservationForm(forms.ModelForm):
     class Meta:
@@ -19,3 +19,7 @@ class RegistrationForm(forms.ModelForm):
         model=User
         fields=['email','password','username','role']
 
+class AddMenuForm(forms.ModelForm):
+    class Meta:
+        model=MenuItems
+        fields='__all__'

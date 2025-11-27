@@ -1,62 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Display Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .product-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            max-width: 600px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .product-image-wrapper {
-            flex: 1 1 250px;
-            text-align: center;
-        }
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .product-details {
-            flex: 2 1 300px;
-        }
-        .product-name {
-            font-size: 2em;
-            margin: 0 0 10px;
-            color: #333;
-        }
-        .product-price {
-            font-size: 1.5em;
-            color: #007bff;
-            margin: 0 0 15px;
-        }
-        .product-description {
-            font-size: 1em;
-            color: #666;
-            line-height: 1.5;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html'%}
+{% load static %}
 
-    <div class="product-container">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'item.css' %}">
+{% endblock %}
+
+{% block title%}
+{{menu_item.name}}
+{%endblock %}
+
+{% block content %}
+
+ <div class="product-container">
         <div class="product-image-wrapper">
             <!-- Replace 'via.placeholder.com' with the actual URL of your product image -->
             <img src="{{menu_item.image}}" alt="Product Name" class="product-image">
@@ -70,5 +25,6 @@
         </div>
     </div>
 
-</body>
-</html>
+{% endblock %}
+
+

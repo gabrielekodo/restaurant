@@ -7,30 +7,65 @@ Recipes
 
 
 
-<div class="container">
+<div class="container mx-2">
+{% for message in messages%}
+<div class="alert alert-danger alert-dismissible fade show row" role="alert">
+  {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">X
+  </button>
+</div>
 
-    <form method="POST">
+    {%endfor%}
+     <button type="button" class="btn addMenu" data-bs-toggle="modal" data-bs-target="#addMenu">
+  ADD NEW MENU
+</button>
+<br><br><br><br>
+<!-- Modal -->
+<div class="modal fade" id="addMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addMMenu">Add new menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mx-2">
+        <form action="{% url 'recipes' %}" method="POST" id="addnewMenu">
         {% csrf_token %}
 
-  <div class="form-group">
+  <div class="form-group row ">
     <label for="exampleInputEmail1">Name</label>
     <input name="name" type="text" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
   </div>
-  <div class="form-group">
+  <div class="form-group row">
     <label for="exampleInputPassword1">Description</label>
-    <input name="description" type="text" class="form-control" id="exampleInputPassword2" placeholder=" " required>
+      <textarea maxlength="1000" name="description" type="textarea" class="form-control" id="exampleInputPassword2" placeholder=" " required></textarea>
   </div>
-  <div class="form-group">
+  <div class="form-group row">
        <label for="exampleInputPassword1">Picture</label>
     <input  type="text" name="image" class="form-control" id="exampleCheck1">
 
   </div>
-        <div class="form-group">
+        <div class="form-group row">
     <label for="exampleInputPassword1">Price</label>
     <input name="price" type="number" class="form-control" id="exampleInputPassword1" placeholder="price in Ugx" required>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+
 </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"
+        onclick="document.getElementById('addnewMenu').submit();"
+        >Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 
     <table class="table table-striped">
   <thead class="thead-dark">
@@ -51,30 +86,53 @@ Recipes
       <td>{{item.name}}</td>
       <td>{{item.price}}</td>
       <td>
-          <a href="{% url 'viewrecipe' item.pk %}" class=" btn btn-warning">Edit</a>
-          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-  Del
+
+         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.pk}}">
+  Edit
 </button>
-          <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal{{item.pk}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="exampleModalLabel{{item.pk}}">Edit {{item.name}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <form method="POST" id="editForm{{ item.pk }}" action="{% url 'update_menu' item.pk %}">
+        {% csrf_token %}
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Name</label>
+    <input name="name" type="text" class="form-control" value="{{item.name}}" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Description</label>
+    <input name="description" type="text" class="form-control" value="{{item.description}}" id="exampleInputPassword2" placeholder=" " required>
+  </div>
+  <div class="form-group">
+       <label for="exampleInputPassword1">Picture</label>
+    <input  type="text" name="image" class="form-control" id="exampleCheck1" value="{{item.image}}">
+
+  </div>
+        <div class="form-group">
+    <label for="exampleInputPassword1">Price</label>
+    <input name="price" type="number" class="form-control" id="exampleInputPassword1" placeholder="price in Ugx" required value="{{item.price}}">
+  </div>
+
+</form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary"
+        onclick="document.getElementById('editForm{{ item.pk }}').submit();"
+        >Save changes</button>
       </div>
     </div>
   </div>
 </div>
+
           <a href="{% url 'delete_menu' item.pk %}" class="btn btn-danger" >Del</a>
       </td>
     </tr>
